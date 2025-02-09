@@ -4,9 +4,16 @@ import { nextStepComputer } from './nextStepComputer';
 import { checkWinner } from './minimax';
 import { isEndGame } from './isEndGame';
 
+const difficultyLevels = {
+  easy: 0,
+  medium: 2,
+  hard: 6
+}
+
 function App() {
   const [gameGrid, setGameGrid] = useState([[null, null, null], [null, null, null], [null, null, null]])
   const [message, setMessage] = useState("")
+  const [difficulty, setDifficulty] = useState(difficultyLevels.medium)
 
   const handleRetry = () => {
     setMessage("")
@@ -22,20 +29,17 @@ function App() {
 
     if (!checkWinner(tempArr)) {
         setTimeout(() => {
-            const newGrid = nextStepComputer(tempArr);
+            const newGrid = nextStepComputer(tempArr, difficulty);
             setGameGrid(newGrid);
 
             if (checkWinner(newGrid)) {
-              console.log("Компьютер выиграл!");
               setMessage("Компьютер выиграл!")
             }
             else if (isEndGame(newGrid)) {
-              console.log("Ничья!");
               setMessage("Ничья!")
             }
         }, 250);
     } else {
-        console.log("Пользователь выиграл!");
         setMessage("Пользователь выиграл!")
     }
 };
@@ -62,6 +66,12 @@ function App() {
             })
           })
         }
+      </div>
+      <div className="levels">
+        <h2>Уровень сложности</h2>
+        <button onClick={() => setDifficulty(difficultyLevels.easy)} className={difficulty == difficultyLevels.easy && 'selected'}>Лёгкий</button>
+        <button onClick={() => setDifficulty(difficultyLevels.medium)} className={difficulty == difficultyLevels.medium && 'selected'}>Средний</button>
+        <button onClick={() => setDifficulty(difficultyLevels.hard)} className={difficulty == difficultyLevels.hard && 'selected'}>Тяжёлый</button>
       </div>
     </div>
   )

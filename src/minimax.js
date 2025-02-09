@@ -1,7 +1,12 @@
-export function minimax(board, depth, isMaximizing) {
+export function minimax(board, depth, isMaximizing, maxDepth) {
     let result = checkWinner(board);
     if (result !== false) {
         return result - (isMaximizing ? depth : -depth); // Учитываем глубину
+    }
+
+    // Ограничиваем глубину поиска
+    if (depth >= maxDepth) {
+        return 0; // Если достигли максимальной глубины, просто возвращаем 0 (ничья)
     }
 
     if (isMaximizing) {
@@ -11,7 +16,7 @@ export function minimax(board, depth, isMaximizing) {
                 if (board[row][col] === null) {
                     let tempBoard = board.map(row => [...row]);
                     tempBoard[row][col] = 'X';
-                    let score = minimax(tempBoard, depth + 1, false);
+                    let score = minimax(tempBoard, depth + 1, false, maxDepth);
                     bestScore = Math.max(score, bestScore);
                 }
             }
@@ -24,7 +29,7 @@ export function minimax(board, depth, isMaximizing) {
                 if (board[row][col] === null) {
                     let tempBoard = board.map(row => [...row]);
                     tempBoard[row][col] = 'O';
-                    let score = minimax(tempBoard, depth + 1, true);
+                    let score = minimax(tempBoard, depth + 1, true, maxDepth);
                     bestScore = Math.min(score, bestScore);
                 }
             }

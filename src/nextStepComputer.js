@@ -1,6 +1,6 @@
 import { minimax } from "./minimax";
 
-export const nextStepComputer = (board) => {
+export const nextStepComputer = (board, maxDepth) => {
     let bestScore = Infinity; // Минимизация для "O"
     let move = { row: -1, col: -1 };
 
@@ -9,7 +9,7 @@ export const nextStepComputer = (board) => {
             if (board[row][col] === null) {
                 let tempBoard = board.map(row => [...row]); // Создаем копию доски
                 tempBoard[row][col] = 'O';
-                let score = minimax(tempBoard, 0, true);
+                let score = minimax(tempBoard, 0, true, maxDepth);
                 
                 if (score < bestScore) {
                     bestScore = score;
