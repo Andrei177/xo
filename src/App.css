@@ -41,6 +41,9 @@
   gap: 7px;
   top: 70px;
 }
+.message h1{
+  text-align: center;
+}
 .btn{
   font-size: 35px;
   font-weight: 500;
